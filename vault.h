@@ -40,9 +40,9 @@ struct enc_vault {
 // on failure. dst must be able to hold at least vault_size(path) bytes.
 int load_vault(struct vault *dst, const char *path, const char *master_passwd);
 
-// write_vault encrypts dst using master_passwd, then writes the resulting
+// write_vault encrypts src using master_passwd, then writes the resulting
 // cipher text to path. It returns 0 on success and errno on failure.
-int write_vault(struct vault *dst, const char *path, const char *master_passwd);
+int write_vault(struct vault *src, const char *path, const char *master_passwd);
 
 // vault_size returns the number of bytes needed to hold the vault stored at
 // path after decryption. If an error occurs, 0 is returned and errno can be

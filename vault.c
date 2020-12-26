@@ -61,12 +61,12 @@ free_mem:
 }
 
 int
-write_vault(struct vault *dst, const char *path, const char *master_passwd)
+write_vault(struct vault *src, const char *path, const char *master_passwd)
 {
   // length of the resulting cipher text is the total size of the unencrypted
   // vault, which must be calculated due to the flexible length array holding
   // the passwords.
-  size_t cipher_length = SALT_LENGTH + sizeof(uint32_t) + dst->n * sizeof(struct entry);
+  size_t cipher_length = SALT_LENGTH + sizeof(uint32_t) + src->n * sizeof(struct entry);
 
   // length of the encrypted vault, which is the cipher text plus the metadata.
   size_t enc_length = sizeof(struct enc_metadata) + cipher_length;
@@ -74,7 +74,8 @@ write_vault(struct vault *dst, const char *path, const char *master_passwd)
   if (ev == NULL) {
     return errno;
   }
-  memcpy(ev->ciphertext, dst, cipher_length);
+  memcpy(ev->ciphertext, src, cipher_length);
+  ev->meta.cipher_length = cipher_length;
 
   int err = 0;
   FILE *f = fopen(path, "wb");
