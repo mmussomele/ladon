@@ -37,7 +37,7 @@ struct enc_vault {
 
 // load_vault reads the vault data from path, decrypts it using master_passwd,
 // and populates dst with the resulting data. It returns 0 on success and errno
-// on failure.
+// on failure. dst must be able to hold at least vault_size(path) bytes.
 int load_vault(struct vault *dst, const char *path, const char *master_passwd);
 
 // write_vault encrypts dst using master_passwd, then writes the resulting
